@@ -36,7 +36,7 @@ uint32_t limit_duty(uint32_t duty)
 
 void motor_set_duty(uint8_t motor_id, uint32_t duty)
 {
-    limit_duty(duty);
+    duty = limit_duty(duty);
     if (motor_id == 1)
     {
         DL_Timer_setCaptureCompareValue(PWMAB_INST, duty, GPIO_PWMAB_C0_IDX);
@@ -90,19 +90,45 @@ void motor_set_direction(uint8_t motor_id, uint8_t direction)
 extern uint32_t counter_1_A;
 extern uint32_t counter_2_A;
 
+#define SPEED_FILTER_SIZE 5
+
 float speed_1 = 0;
 float speed_2 = 0;
+
+static uint32_t speed_count_1[SPEED_FILTER_SIZE] = {0};
+static uint32_t speed_count_2[SPEED_FILTER_SIZE] = {0};
+static uint32_t speed_count_sum_1 = 0;
+static uint32_t speed_count_sum_2 = 0;
+static uint8_t speed_count_index_1 = 0;
+static uint8_t speed_count_index_2 = 0;
+
 void calculate_speed(uint8_t motor_id)
 {
+    uint32_t current_count;
+
     if (motor_id == 1)
     {
-        speed_1 = (float)counter_1_A / MOTOR_ENCODER * PI * MOTOR_WHEEL_D * 100; // 轮速 mm/s
+        current_count = counter_1_A;
         counter_1_A = 0;
+
+        speed_count_sum_1 -= speed_count_1[speed_count_index_1];
+        speed_count_1[speed_count_index_1] = current_count;
+        speed_count_sum_1 += current_count;
+        speed_count_index_1 = (speed_count_index_1 + 1) % SPEED_FILTER_SIZE;
+
+        speed_1 = (float)speed_count_sum_1 / SPEED_FILTER_SIZE / MOTOR_ENCODER * PI * MOTOR_WHEEL_D * 100; // 轮速 mm/s
     }
     else if (motor_id == 2)
     {
-        speed_2 = (float)counter_2_A / MOTOR_ENCODER * PI * MOTOR_WHEEL_D * 100; // 轮速 mm/s
+        current_count = counter_2_A;
         counter_2_A = 0;
+
+        speed_count_sum_2 -= speed_count_2[speed_count_index_2];
+        speed_count_2[speed_count_index_2] = current_count;
+        speed_count_sum_2 += current_count;
+        speed_count_index_2 = (speed_count_index_2 + 1) % SPEED_FILTER_SIZE;
+
+        speed_2 = (float)speed_count_sum_2 / SPEED_FILTER_SIZE / MOTOR_ENCODER * PI * MOTOR_WHEEL_D * 100; // 轮速 mm/s
     }
 }
 
@@ -111,12 +137,12 @@ float kp = 0.5;
 float ki = 0.4;
 float kd = 0;
 
-uint16_t PWM_1_duty = 0;
+float PWM_1_duty = 0;
 float target_speed_1 = 0; // mm/s
 float last_error_1 = 0;
 float current_error_1 = 0;
 
-uint16_t PWM_2_duty = 0;
+float PWM_2_duty = 0;
 float target_speed_2 = 0; // mm/s
 float last_error_2 = 0;
 float current_error_2 = 0;
@@ -127,19 +153,33 @@ void DC_MOTOR_PID(uint8_t motor_id)
     {
         error = target_speed_1 - speed_1;
         current_error_1 = error;
-        PWM_1_duty += (uint16_t)(kp * (current_error_1 - last_error_1) + ki * (current_error_1));
-        PWM_1_duty = limit_duty(PWM_1_duty);
+        PWM_1_duty += kp * (current_error_1 - last_error_1) + ki * current_error_1;
+        if (PWM_1_duty > 4000)
+        {
+            PWM_1_duty = 4000;
+        }
+        if (PWM_1_duty < 0)
+        {
+            PWM_1_duty = 0;
+        }
         last_error_1 = current_error_1;
-        motor_set_duty(motor_id, PWM_1_duty);
+        motor_set_duty(motor_id, (uint32_t)PWM_1_duty);
     }
     if (motor_id == 2)
     {
         error = target_speed_2 - speed_2;
         current_error_2 = error;
-        PWM_2_duty += (uint16_t)(kp * (current_error_2 - last_error_2) + ki * (current_error_2));
-        PWM_2_duty = limit_duty(PWM_2_duty);
+        PWM_2_duty += kp * (current_error_2 - last_error_2) + ki * current_error_2;
+        if (PWM_2_duty > 4000)
+        {
+            PWM_2_duty = 4000;
+        }
+        if (PWM_2_duty < 0)
+        {
+            PWM_2_duty = 0;
+        }
         last_error_2 = current_error_2;
-        motor_set_duty(motor_id, PWM_2_duty);
+        motor_set_duty(motor_id, (uint32_t)PWM_2_duty);
     }
 }
 

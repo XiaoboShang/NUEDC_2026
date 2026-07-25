@@ -43,9 +43,10 @@ mux8.inputSelect = "HSCLKMUX_SYSPLL0";
 const mux12       = system.clockTree["SYSPLLMUX"];
 mux12.inputSelect = "zSYSPLLMUX_HFCLK";
 
-const pinFunction4     = system.clockTree["HFXT"];
-pinFunction4.inputFreq = 40;
-pinFunction4.enable    = true;
+const pinFunction4       = system.clockTree["HFXT"];
+pinFunction4.inputFreq   = 40;
+pinFunction4.enable      = true;
+pinFunction4.HFXTStartup = 10;
 
 GPIO1.$name                         = "LED";
 GPIO1.associatedPins[0].$name       = "LED_0";
@@ -162,16 +163,20 @@ PWM2.timerCount                         = 4000;
 PWM2.timerStartTimer                    = true;
 PWM2.pwmMode                            = "EDGE_ALIGN_UP";
 PWM2.$name                              = "PWMAB";
+PWM2.peripheral.$assign                 = "TIMG0";
+PWM2.peripheral.ccp0Pin.$assign         = "PA12";
+PWM2.peripheral.ccp1Pin.$assign         = "PA13";
 PWM2.PWM_CHANNEL_0.$name                = "ti_driverlib_pwm_PWMTimerCC1";
+PWM2.PWM_CHANNEL_1.$name                = "ti_driverlib_pwm_PWMTimerCC2";
 PWM2.ccp0PinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric4";
 PWM2.ccp0PinConfig.direction            = scripting.forceWrite("OUTPUT");
 PWM2.ccp0PinConfig.hideOutputInversion  = scripting.forceWrite(false);
 PWM2.ccp0PinConfig.onlyInternalResistor = scripting.forceWrite(false);
 PWM2.ccp0PinConfig.passedPeripheralType = scripting.forceWrite("Digital");
-PWM2.peripheral.$assign                 = "TIMG0";
-PWM2.peripheral.ccp0Pin.$assign         = "PA12";
-PWM2.peripheral.ccp1Pin.$assign         = "PA13";
-PWM2.PWM_CHANNEL_1.$name                = "ti_driverlib_pwm_PWMTimerCC2";
+PWM2.ccp1PinConfig.direction            = scripting.forceWrite("OUTPUT");
+PWM2.ccp1PinConfig.hideOutputInversion  = scripting.forceWrite(false);
+PWM2.ccp1PinConfig.onlyInternalResistor = scripting.forceWrite(false);
+PWM2.ccp1PinConfig.passedPeripheralType = scripting.forceWrite("Digital");
 PWM2.ccp1PinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric6";
 
 SYSCTL.forceDefaultClkConfig = true;
@@ -190,15 +195,15 @@ UART1.enabledInterrupts                = ["RX"];
 UART1.peripheral.$assign               = "UART0";
 UART1.peripheral.rxPin.$assign         = "PA11";
 UART1.peripheral.txPin.$assign         = "PA10";
-UART1.txPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric2";
 UART1.txPinConfig.direction            = scripting.forceWrite("OUTPUT");
 UART1.txPinConfig.hideOutputInversion  = scripting.forceWrite(false);
 UART1.txPinConfig.onlyInternalResistor = scripting.forceWrite(false);
 UART1.txPinConfig.passedPeripheralType = scripting.forceWrite("Digital");
-UART1.rxPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric3";
+UART1.txPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric2";
 UART1.rxPinConfig.hideOutputInversion  = scripting.forceWrite(false);
 UART1.rxPinConfig.onlyInternalResistor = scripting.forceWrite(false);
 UART1.rxPinConfig.passedPeripheralType = scripting.forceWrite("Digital");
+UART1.rxPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric3";
 
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future

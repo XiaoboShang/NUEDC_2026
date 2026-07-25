@@ -9,17 +9,17 @@
 int status = 0;
 extern float target_speed_1;
 extern float target_speed_2;
-
+extern float speed_1;
+extern float speed_2;
 extern uint8_t huidu_value[];
 
 int main(void)
 {
     SYSCFG_DL_init();
-    OLED_Init(); // OLED初始化
-    OLED_ColorTurn(0);
-    OLED_DisplayTurn(0);
-    OLED_Clear();
-    // NVIC_EnableIRQ(PRINT_INST_INT_IRQN); // 中断初始化
+    // OLED_Init(); // OLED初始化
+    // OLED_ColorTurn(0);
+    // OLED_DisplayTurn(0);
+    // OLED_Clear();
     NVIC_EnableIRQ(GPIO_MULTIPLE_GPIOB_INT_IRQN);
     NVIC_EnableIRQ(DC_MOTOR_GPIOA_INT_IRQN);
 
@@ -28,24 +28,24 @@ int main(void)
 
     motor_init(1);
     motor_init(2);
+    motor_set_direction(1, 1);
+    motor_set_direction(2, 1);
     // motor_set_duty(1, 2000);
     target_speed_1 = 200; // mm/s
     target_speed_2 = 200; // mm/s
 
-    char huidu_buf[] = "00000\n";
+    // char huidu_buf[] = "00000\n";
+    char current_speed[50];
     while (1)
     {
-        huidu_get_value();
-        sprintf(huidu_buf, "%d%d%d%d%d\n", huidu_value[0], huidu_value[1], huidu_value[2], huidu_value[3], huidu_value[4]);
-        UART_send_string(DEBUG_INST, huidu_buf);
+        sprintf(current_speed, "speed_1 : %.2f, speed_2 : %.2f\n", speed_1, speed_2);
+        UART_send_string(DEBUG_INST, current_speed);
 
-        motor_set_direction(1, 1);
-        motor_set_direction(2, 1);
+        // huidu_get_value();
+        // sprintf(huidu_buf, "%d%d%d%d%d\n", huidu_value[0], huidu_value[1], huidu_value[2], huidu_value[3], huidu_value[4]);
+        // UART_send_string(DEBUG_INST, huidu_buf);
 
-        delay_ms(1000);
-        // motor_set_direction(1, 1);
-        // delay_ms(1000);
-        // motor_set_direction(1, 1);
+        delay_ms(500);
 
         // switch (status)
         // {
@@ -82,9 +82,5 @@ int main(void)
         // DL_GPIO_clearPins(LED_PORT, LED_LED_0_PIN);
         // delay_ms(500);
         // DL_GPIO_setPins(LED_PORT, LED_LED_0_PIN);
-
-        // // 串口发送信息
-        // DL_UART_transmitData(PRINT_INST, 'H');
-        // UART_send_string(PRINT_INST, "Hello TI!\n");
     }
 }

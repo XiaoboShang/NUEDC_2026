@@ -30,7 +30,7 @@ void GROUP1_IRQHandler()
         break;
     }
 
-    // 轮胎转一圈编码器线数 MOTOR_ENCODER 260 次中断
+    // 轮胎转一圈编码器线数 MOTOR_ENCODER 390 次中断
     switch (DL_GPIO_getPendingInterrupt(GPIOA))
     {
     case DC_MOTOR_AA_IIDX:
