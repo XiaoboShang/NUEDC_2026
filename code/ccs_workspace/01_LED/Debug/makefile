@@ -10,6 +10,7 @@ GEN_OPTS__FLAG := @"./device.opt"
 GEN_CMDS__FLAG := -Wl,-l"./device_linker.cmd" 
 
 ORDERED_OBJS += \
+"./delay.o" \
 "./empty.o" \
 "./ti_msp_dl_config.o" \
 "./startup_mspm0g350x_ticlang.o" \
@@ -136,8 +137,8 @@ all: $(OBJS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" 
-	-$(RM) "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" 
+	-$(RM) "delay.o" "empty.o" "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" 
+	-$(RM) "delay.d" "empty.d" "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" 
 	-@echo ' '
 
 .PHONY: all clean dependents

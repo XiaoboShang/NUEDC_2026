@@ -9,6 +9,7 @@ SYSCFG_SRCS += \
 ../empty.syscfg 
 
 C_SRCS += \
+../delay.c \
 ../empty.c \
 ./ti_msp_dl_config.c \
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/msp/m0p/startup_system_files/ticlang/startup_mspm0g350x_ticlang.c 
@@ -22,6 +23,7 @@ GEN_FILES += \
 ./ti_msp_dl_config.c 
 
 C_DEPS += \
+./delay.d \
 ./empty.d \
 ./ti_msp_dl_config.d \
 ./startup_mspm0g350x_ticlang.d 
@@ -30,6 +32,7 @@ GEN_OPTS += \
 ./device.opt 
 
 OBJS += \
+./delay.o \
 ./empty.o \
 ./ti_msp_dl_config.o \
 ./startup_mspm0g350x_ticlang.o 
@@ -40,6 +43,7 @@ GEN_MISC_FILES += \
 ./Event.dot 
 
 OBJS__QUOTED += \
+"delay.o" \
 "empty.o" \
 "ti_msp_dl_config.o" \
 "startup_mspm0g350x_ticlang.o" 
@@ -50,6 +54,7 @@ GEN_MISC_FILES__QUOTED += \
 "Event.dot" 
 
 C_DEPS__QUOTED += \
+"delay.d" \
 "empty.d" \
 "ti_msp_dl_config.d" \
 "startup_mspm0g350x_ticlang.d" 
@@ -60,6 +65,7 @@ GEN_FILES__QUOTED += \
 "ti_msp_dl_config.c" 
 
 C_SRCS__QUOTED += \
+"../delay.c" \
 "../empty.c" \
 "./ti_msp_dl_config.c" \
 "G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/msp/m0p/startup_system_files/ticlang/startup_mspm0g350x_ticlang.c" 

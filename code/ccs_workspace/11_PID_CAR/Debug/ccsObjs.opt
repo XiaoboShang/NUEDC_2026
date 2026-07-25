@@ -1,0 +1,12 @@
+"./ti_msp_dl_config.o"
+"./startup_mspm0g350x_ticlang.o"
+"./main.o"
+"./user_driver/delay.o"
+"./user_driver/huidu.o"
+"./user_driver/key.o"
+"./user_driver/motor.o"
+"./user_driver/oled.o"
+"./user_driver/uart.o"
+-l"./device_linker.cmd"
+-ldevice.cmd.genlibs
+-llibc.a

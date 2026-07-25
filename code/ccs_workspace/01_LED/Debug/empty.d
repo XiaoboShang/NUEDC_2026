@@ -83,7 +83,8 @@ empty.o: ../empty.c \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_vref.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_wwdt.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_interrupt.h \
- G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h
+ G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h \
+ ../delay.h
 ti_msp_dl_config.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/msp/msp.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/DeviceFamily.h:
@@ -167,3 +168,4 @@ G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_vref.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_wwdt.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_interrupt.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h:
+../delay.h:

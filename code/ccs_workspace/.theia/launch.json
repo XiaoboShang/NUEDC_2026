@@ -53,6 +53,15 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "11_PID_CAR",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "11_PID_CAR",
+                "resourceId": "/11_PID_CAR"
+            }
         }
     ]
 }
