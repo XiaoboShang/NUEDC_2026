@@ -1,6 +1,7 @@
 # FIXED
 
-user_driver/motor.o: ../user_driver/motor.c ../user_driver/motor.h \
+user_driver/pid.o: ../user_driver/pid.c ../user_driver/pid.h \
+ ../user_driver/huidu.h \
  ti_msp_dl_config.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/msp/msp.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/DeviceFamily.h \
@@ -84,8 +85,9 @@ user_driver/motor.o: ../user_driver/motor.c ../user_driver/motor.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_wwdt.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_interrupt.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h \
- ../user_driver/pid.h
-../user_driver/motor.h:
+ ../user_driver/motor.h
+../user_driver/pid.h:
+../user_driver/huidu.h:
 ti_msp_dl_config.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/msp/msp.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/DeviceFamily.h:
@@ -169,4 +171,4 @@ G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_vref.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_wwdt.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_interrupt.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h:
-../user_driver/pid.h:
+../user_driver/motor.h:

@@ -83,8 +83,7 @@ user_driver/huidu.o: ../user_driver/huidu.c ../user_driver/huidu.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_vref.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_wwdt.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_interrupt.h \
- G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h \
- ../user_driver/motor.h
+ G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h
 ../user_driver/huidu.h:
 ti_msp_dl_config.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/msp/msp.h:
@@ -169,4 +168,3 @@ G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_vref.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_wwdt.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_interrupt.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h:
-../user_driver/motor.h:

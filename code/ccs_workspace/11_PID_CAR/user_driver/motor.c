@@ -1,4 +1,5 @@
 #include "motor.h"
+#include "pid.h"
 
 void motor_init(uint8_t motor_id)
 {
@@ -189,10 +190,10 @@ void MOTOR_PID_INST_IRQHandler()
     switch (DL_Timer_getPendingInterrupt(MOTOR_PID_INST))
     {
     case DL_TIMER_IIDX_LOAD:
-        // adjust_motor();
+        line_pid_update();
         calculate_speed(1);
-        DC_MOTOR_PID(1);
         calculate_speed(2);
+        DC_MOTOR_PID(1);
         DC_MOTOR_PID(2);
         break;
 

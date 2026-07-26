@@ -1,92 +1,36 @@
 #include "huidu.h"
 
-uint8_t huidu_value[] = {0, 0, 0, 0, 0, 0, 0, 0};
+volatile uint8_t huidu_value[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
-uint8_t get_gpio_state(GPIO_Regs *gpio_port, uint32_t gpio)
+/**
+ * @brief 读取指定 GPIO 引脚的高低电平。
+ * @param gpio_port GPIO 端口。
+ * @param gpio GPIO 引脚掩码。
+ * @return 高电平返回 1，低电平返回 0。
+ */
+static uint8_t huidu_get_gpio_state(GPIO_Regs *gpio_port, uint32_t gpio)
 {
     uint32_t high_bits = DL_GPIO_readPins(gpio_port, gpio);
     if ((high_bits & gpio) != 0)
+    {
         return 1;
-    else
-        return 0;
+    }
+    return 0;
 }
 
-void huidu_get_value()
+/**
+ * @brief 读取八路灰度传感器，黑色记为 1，白色记为 0。
+ * @param 无。
+ * @return 无。结果按 L4、L3、L2、L1、R1、R2、R3、R4 保存。
+ */
+void huidu_get_value(void)
 {
-    huidu_value[0] = !get_gpio_state(HUIDU_PORT, HUIDU_L4_PIN);
-    huidu_value[1] = !get_gpio_state(HUIDU_PORT, HUIDU_L3_PIN);
-    huidu_value[2] = !get_gpio_state(HUIDU_PORT, HUIDU_L2_PIN);
-    huidu_value[3] = !get_gpio_state(HUIDU_PORT, HUIDU_L1_PIN);
-    huidu_value[4] = !get_gpio_state(HUIDU_PORT, HUIDU_R1_PIN);
-    huidu_value[5] = !get_gpio_state(HUIDU_PORT, HUIDU_R2_PIN);
-    huidu_value[6] = !get_gpio_state(HUIDU_PORT, HUIDU_R3_PIN);
-    huidu_value[7] = !get_gpio_state(HUIDU_PORT, HUIDU_R4_PIN);
-}
-
-extern float target_speed_1;
-extern float target_speed_2;
-float target_speed_5[] = {0, 125, 175, 200, 400, 500};
-void adjust_motor()
-{
-    huidu_get_value();
-    // 全白
-    if (huidu_value[0] == 0 && huidu_value[1] == 0 && huidu_value[2] == 0 && huidu_value[3] == 0 && huidu_value[4] == 0)
-    {
-        motor_set_direction(1, 1);
-        motor_set_direction(2, 1);
-        float minspeed = target_speed_1 > target_speed_2 ? target_speed_2 : target_speed_1;
-        target_speed_1 = minspeed;
-        target_speed_2 = minspeed;
-    }
-    // 全黑
-    else if (huidu_value[0] == 1 && huidu_value[1] == 1 && huidu_value[2] == 1 && huidu_value[3] == 1 && huidu_value[4] == 1)
-    {
-        target_speed_1 = 0;
-        target_speed_2 = 0;
-    }
-    // 正常中间黑一个
-    else if (huidu_value[0] == 0 && huidu_value[1] == 0 && huidu_value[2] == 1 && huidu_value[3] == 0 && huidu_value[4] == 0)
-    {
-        motor_set_direction(1, 1);
-        motor_set_direction(2, 1);
-        float minspeed = target_speed_1 > target_speed_2 ? target_speed_2 : target_speed_1;
-        target_speed_1 = minspeed;
-        target_speed_2 = minspeed;
-    }
-    // L1黑
-    else if (huidu_value[0] == 0 && huidu_value[1] == 1)
-    {
-        target_speed_1 = target_speed_5[2];
-        target_speed_2 = target_speed_5[3];
-    }
-    // L2 L1都黑
-    else if (huidu_value[0] == 1 && huidu_value[1] == 1)
-    {
-        target_speed_1 = target_speed_5[2];
-        target_speed_2 = target_speed_5[4];
-    }
-    // L2黑 L1白
-    else if (huidu_value[0] == 1)
-    {
-        target_speed_1 = target_speed_5[1];
-        target_speed_2 = target_speed_5[5];
-    }
-    // R1黑
-    else if (huidu_value[0] == 0 && huidu_value[1] == 1)
-    {
-        target_speed_1 = target_speed_5[3];
-        target_speed_2 = target_speed_5[2];
-    }
-    // R2 R1都黑
-    else if (huidu_value[0] == 1 && huidu_value[1] == 1)
-    {
-        target_speed_1 = target_speed_5[4];
-        target_speed_2 = target_speed_5[2];
-    }
-    // R2黑 R1白
-    else if (huidu_value[0] == 1)
-    {
-        target_speed_1 = target_speed_5[5];
-        target_speed_2 = target_speed_5[1];
-    }
+    huidu_value[0] = !huidu_get_gpio_state(HUIDU_PORT, HUIDU_L4_PIN);
+    huidu_value[1] = !huidu_get_gpio_state(HUIDU_PORT, HUIDU_L3_PIN);
+    huidu_value[2] = !huidu_get_gpio_state(HUIDU_PORT, HUIDU_L2_PIN);
+    huidu_value[3] = !huidu_get_gpio_state(HUIDU_PORT, HUIDU_L1_PIN);
+    huidu_value[4] = !huidu_get_gpio_state(HUIDU_PORT, HUIDU_R1_PIN);
+    huidu_value[5] = !huidu_get_gpio_state(HUIDU_PORT, HUIDU_R2_PIN);
+    huidu_value[6] = !huidu_get_gpio_state(HUIDU_PORT, HUIDU_R3_PIN);
+    huidu_value[7] = !huidu_get_gpio_state(HUIDU_PORT, HUIDU_R4_PIN);
 }

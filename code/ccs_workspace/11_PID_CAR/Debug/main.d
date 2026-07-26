@@ -89,7 +89,8 @@ main.o: ../main.c \
  G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/uart.h \
  G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/key.h \
  G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/motor.h \
- G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/huidu.h
+ G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/huidu.h \
+ G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/pid.h
 ti_msp_dl_config.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/msp/msp.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/DeviceFamily.h:
@@ -179,3 +180,4 @@ G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/uart.h:
 G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/key.h:
 G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/motor.h:
 G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/huidu.h:
+G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/pid.h:

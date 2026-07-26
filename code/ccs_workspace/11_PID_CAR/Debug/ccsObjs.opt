@@ -6,6 +6,7 @@
 "./user_driver/key.o"
 "./user_driver/motor.o"
 "./user_driver/oled.o"
+"./user_driver/pid.o"
 "./user_driver/uart.o"
 -l"./device_linker.cmd"
 -ldevice.cmd.genlibs

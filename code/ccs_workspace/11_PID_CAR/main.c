@@ -6,12 +6,8 @@
 #include "key.h"
 #include "motor.h"
 #include "huidu.h"
+#include "pid.h"
 int status = 0;
-extern float target_speed_1;
-extern float target_speed_2;
-extern float speed_1;
-extern float speed_2;
-extern uint8_t huidu_value[];
 
 int main(void)
 {
@@ -33,16 +29,30 @@ int main(void)
     // motor_set_duty(1, 2000);
     target_speed_1 = 0; // mm/s
     target_speed_2 = 0; // mm/s
+    line_pid_init();
 
-    char huidu_buf[100];
+    char huidu_buf[128];
     char current_speed[50];
+    uint8_t huidu_snapshot[8];
+    float line_error_snapshot;
+    line_state_t line_state_snapshot;
+    uint8_t index;
     while (1)
     {
         sprintf(current_speed, "speed_1 : %.2f, speed_2 : %.2f\n", speed_1, speed_2);
         UART_send_string(DEBUG_INST, current_speed);
 
-        huidu_get_value();
-        sprintf(huidu_buf, "L4:%d, L3:%d, L2:%d, L1:%d, R1:%d, R2:%d, R3:%d, R4:%d\n", huidu_value[0], huidu_value[1], huidu_value[2], huidu_value[3], huidu_value[4], huidu_value[5], huidu_value[6], huidu_value[7]);
+        for (index = 0U; index < 8U; index++)
+        {
+            huidu_snapshot[index] = huidu_value[index];
+        }
+        line_error_snapshot = line_pid_get_error();
+        line_state_snapshot = line_pid_get_state();
+        sprintf(huidu_buf,
+                "L4:%d,L3:%d,L2:%d,L1:%d,R1:%d,R2:%d,R3:%d,R4:%d,error:%.2f,state:%d\n",
+                huidu_snapshot[0], huidu_snapshot[1], huidu_snapshot[2], huidu_snapshot[3],
+                huidu_snapshot[4], huidu_snapshot[5], huidu_snapshot[6], huidu_snapshot[7],
+                line_error_snapshot, (int)line_state_snapshot);
         UART_send_string(DEBUG_INST, huidu_buf);
 
         delay_ms(500);

@@ -18,6 +18,7 @@ ORDERED_OBJS += \
 "./user_driver/key.o" \
 "./user_driver/motor.o" \
 "./user_driver/oled.o" \
+"./user_driver/pid.o" \
 "./user_driver/uart.o" \
 $(GEN_CMDS__FLAG) \
 -Wl,-ldevice.cmd.genlibs \
@@ -144,8 +145,8 @@ all: $(OBJS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "main.o" "user_driver\delay.o" "user_driver\huidu.o" "user_driver\key.o" "user_driver\motor.o" "user_driver\oled.o" "user_driver\uart.o" 
-	-$(RM) "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "main.d" "user_driver\delay.d" "user_driver\huidu.d" "user_driver\key.d" "user_driver\motor.d" "user_driver\oled.d" "user_driver\uart.d" 
+	-$(RM) "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "main.o" "user_driver\delay.o" "user_driver\huidu.o" "user_driver\key.o" "user_driver\motor.o" "user_driver\oled.o" "user_driver\pid.o" "user_driver\uart.o" 
+	-$(RM) "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "main.d" "user_driver\delay.d" "user_driver\huidu.d" "user_driver\key.d" "user_driver\motor.d" "user_driver\oled.d" "user_driver\pid.d" "user_driver\uart.d" 
 	-@echo ' '
 
 .PHONY: all clean dependents

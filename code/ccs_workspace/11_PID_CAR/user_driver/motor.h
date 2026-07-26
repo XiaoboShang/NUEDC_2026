@@ -30,7 +30,11 @@
 // PA22 B
 
 #include "ti_msp_dl_config.h"
-#include "huidu.h"
+
+extern float speed_1;
+extern float speed_2;
+extern float target_speed_1;
+extern float target_speed_2;
 /**
  * @brief 初始化电机
  * @param motor_id 电机编号可选1,2

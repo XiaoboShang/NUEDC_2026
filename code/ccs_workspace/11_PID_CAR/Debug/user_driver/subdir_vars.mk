@@ -11,6 +11,7 @@ C_SRCS += \
 ../user_driver/key.c \
 ../user_driver/motor.c \
 ../user_driver/oled.c \
+../user_driver/pid.c \
 ../user_driver/uart.c 
 
 C_DEPS += \
@@ -19,6 +20,7 @@ C_DEPS += \
 ./user_driver/key.d \
 ./user_driver/motor.d \
 ./user_driver/oled.d \
+./user_driver/pid.d \
 ./user_driver/uart.d 
 
 OBJS += \
@@ -27,6 +29,7 @@ OBJS += \
 ./user_driver/key.o \
 ./user_driver/motor.o \
 ./user_driver/oled.o \
+./user_driver/pid.o \
 ./user_driver/uart.o 
 
 OBJS__QUOTED += \
@@ -35,6 +38,7 @@ OBJS__QUOTED += \
 "user_driver\key.o" \
 "user_driver\motor.o" \
 "user_driver\oled.o" \
+"user_driver\pid.o" \
 "user_driver\uart.o" 
 
 C_DEPS__QUOTED += \
@@ -43,6 +47,7 @@ C_DEPS__QUOTED += \
 "user_driver\key.d" \
 "user_driver\motor.d" \
 "user_driver\oled.d" \
+"user_driver\pid.d" \
 "user_driver\uart.d" 
 
 C_SRCS__QUOTED += \
@@ -51,6 +56,7 @@ C_SRCS__QUOTED += \
 "../user_driver/key.c" \
 "../user_driver/motor.c" \
 "../user_driver/oled.c" \
+"../user_driver/pid.c" \
 "../user_driver/uart.c" 
 
 
