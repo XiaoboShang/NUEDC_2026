@@ -1,10 +1,10 @@
 #include "huidu.h"
 
-uint8_t huidu_value[] = {0, 0, 0, 0, 0};
+uint8_t huidu_value[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 uint8_t get_gpio_state(GPIO_Regs *gpio_port, uint32_t gpio)
 {
-    uint8_t high_bits = DL_GPIO_readPins(gpio_port, gpio);
+    uint32_t high_bits = DL_GPIO_readPins(gpio_port, gpio);
     if ((high_bits & gpio) != 0)
         return 1;
     else
@@ -13,11 +13,14 @@ uint8_t get_gpio_state(GPIO_Regs *gpio_port, uint32_t gpio)
 
 void huidu_get_value()
 {
-    huidu_value[0] = get_gpio_state(HUIDU_L2_PORT, HUIDU_L2_PIN);
-    huidu_value[1] = get_gpio_state(HUIDU_L1_PORT, HUIDU_L1_PIN);
-    huidu_value[2] = get_gpio_state(HUIDU_M_PORT, HUIDU_M_PIN);
-    huidu_value[3] = get_gpio_state(HUIDU_R1_PORT, HUIDU_R1_PIN);
-    huidu_value[4] = get_gpio_state(HUIDU_R2_PORT, HUIDU_R2_PIN);
+    huidu_value[0] = !get_gpio_state(HUIDU_PORT, HUIDU_L4_PIN);
+    huidu_value[1] = !get_gpio_state(HUIDU_PORT, HUIDU_L3_PIN);
+    huidu_value[2] = !get_gpio_state(HUIDU_PORT, HUIDU_L2_PIN);
+    huidu_value[3] = !get_gpio_state(HUIDU_PORT, HUIDU_L1_PIN);
+    huidu_value[4] = !get_gpio_state(HUIDU_PORT, HUIDU_R1_PIN);
+    huidu_value[5] = !get_gpio_state(HUIDU_PORT, HUIDU_R2_PIN);
+    huidu_value[6] = !get_gpio_state(HUIDU_PORT, HUIDU_R3_PIN);
+    huidu_value[7] = !get_gpio_state(HUIDU_PORT, HUIDU_R4_PIN);
 }
 
 extern float target_speed_1;
