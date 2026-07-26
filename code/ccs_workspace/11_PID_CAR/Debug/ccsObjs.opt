@@ -8,6 +8,9 @@
 "./user_driver/oled.o"
 "./user_driver/pid.o"
 "./user_driver/uart.o"
+"./user_driver/mpu6050/inv_mpu.o"
+"./user_driver/mpu6050/inv_mpu_dmp_motion_driver.o"
+"./user_driver/mpu6050/mpu_port.o"
 -l"./device_linker.cmd"
 -ldevice.cmd.genlibs
 -llibc.a

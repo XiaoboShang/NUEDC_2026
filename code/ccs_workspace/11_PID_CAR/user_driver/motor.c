@@ -190,7 +190,7 @@ void MOTOR_PID_INST_IRQHandler()
     switch (DL_Timer_getPendingInterrupt(MOTOR_PID_INST))
     {
     case DL_TIMER_IIDX_LOAD:
-        line_pid_update();
+        // line_pid_update();
         calculate_speed(1);
         calculate_speed(2);
         DC_MOTOR_PID(1);

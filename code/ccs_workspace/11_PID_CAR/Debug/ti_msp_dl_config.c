@@ -57,7 +57,9 @@ SYSCONFIG_WEAK void SYSCFG_DL_init(void)
     SYSCFG_DL_PWMAB_init();
     SYSCFG_DL_MOTOR_PID_init();
     SYSCFG_DL_OLED_init();
+    SYSCFG_DL_MPU6050_init();
     SYSCFG_DL_DEBUG_init();
+    SYSCFG_DL_SYSTICK_init();
     /* Ensure backup structures have no valid state */
 	gSERVOBackup.backupRdy 	= false;
 	gMOTOR_PIDBackup.backupRdy 	= false;
@@ -97,7 +99,9 @@ SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
     DL_TimerG_reset(PWMAB_INST);
     DL_TimerA_reset(MOTOR_PID_INST);
     DL_I2C_reset(OLED_INST);
+    DL_I2C_reset(MPU6050_INST);
     DL_UART_Main_reset(DEBUG_INST);
+
 
     DL_GPIO_enablePower(GPIOA);
     DL_GPIO_enablePower(GPIOB);
@@ -105,7 +109,9 @@ SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
     DL_TimerG_enablePower(PWMAB_INST);
     DL_TimerA_enablePower(MOTOR_PID_INST);
     DL_I2C_enablePower(OLED_INST);
+    DL_I2C_enablePower(MPU6050_INST);
     DL_UART_Main_enablePower(DEBUG_INST);
+
     delay_cycles(POWER_STARTUP_DELAY);
 }
 
@@ -133,6 +139,16 @@ SYSCONFIG_WEAK void SYSCFG_DL_GPIO_init(void)
 		 DL_GPIO_HYSTERESIS_DISABLE, DL_GPIO_WAKEUP_DISABLE);
     DL_GPIO_enableHiZ(GPIO_OLED_IOMUX_SDA);
     DL_GPIO_enableHiZ(GPIO_OLED_IOMUX_SCL);
+    DL_GPIO_initPeripheralInputFunctionFeatures(GPIO_MPU6050_IOMUX_SDA,
+        GPIO_MPU6050_IOMUX_SDA_FUNC, DL_GPIO_INVERSION_DISABLE,
+        DL_GPIO_RESISTOR_NONE, DL_GPIO_HYSTERESIS_DISABLE,
+        DL_GPIO_WAKEUP_DISABLE);
+    DL_GPIO_initPeripheralInputFunctionFeatures(GPIO_MPU6050_IOMUX_SCL,
+        GPIO_MPU6050_IOMUX_SCL_FUNC, DL_GPIO_INVERSION_DISABLE,
+        DL_GPIO_RESISTOR_NONE, DL_GPIO_HYSTERESIS_DISABLE,
+        DL_GPIO_WAKEUP_DISABLE);
+    DL_GPIO_enableHiZ(GPIO_MPU6050_IOMUX_SDA);
+    DL_GPIO_enableHiZ(GPIO_MPU6050_IOMUX_SCL);
 
     DL_GPIO_initPeripheralOutputFunction(
         GPIO_DEBUG_IOMUX_TX, GPIO_DEBUG_IOMUX_TX_FUNC);
@@ -230,8 +246,8 @@ static const DL_SYSCTL_SYSPLLConfig gSYSPLLConfig = {
 	.enableCLK1             = DL_SYSCTL_SYSPLL_CLK1_DISABLE,
 	.enableCLK0             = DL_SYSCTL_SYSPLL_CLK0_ENABLE,
 	.sysPLLMCLK             = DL_SYSCTL_SYSPLL_MCLK_CLK0,
-	.sysPLLRef              = DL_SYSCTL_SYSPLL_REF_HFCLK,
-	.qDiv                   = 3,
+	.sysPLLRef              = DL_SYSCTL_SYSPLL_REF_SYSOSC,
+	.qDiv                   = 4,
 	.pDiv                   = DL_SYSCTL_SYSPLL_PDIV_1
 };
 
@@ -267,7 +283,7 @@ SYSCONFIG_WEAK bool SYSCFG_DL_SYSCTL_SYSPLL_init(void)
     /* Measuring SYSPLL Source */
     DL_SYSCTL_configFCC(DL_SYSCTL_FCC_TRIG_TYPE_RISE_RISE,
                         DL_SYSCTL_FCC_TRIG_SOURCE_LFCLK,
-                        DL_SYSCTL_FCC_CLOCK_SOURCE_HFCLK);
+                        DL_SYSCTL_FCC_CLOCK_SOURCE_SYSOSC);
     /* Get SYSPLL frequency using FCC */
     fccTimeOutCounter = 0;
     DL_SYSCTL_startFCC();
@@ -497,6 +513,35 @@ SYSCONFIG_WEAK void SYSCFG_DL_OLED_init(void) {
 
 
 }
+static const DL_I2C_ClockConfig gMPU6050ClockConfig = {
+    .clockSel = DL_I2C_CLOCK_BUSCLK,
+    .divideRatio = DL_I2C_CLOCK_DIVIDE_1,
+};
+
+SYSCONFIG_WEAK void SYSCFG_DL_MPU6050_init(void) {
+
+    DL_I2C_setClockConfig(MPU6050_INST,
+        (DL_I2C_ClockConfig *) &gMPU6050ClockConfig);
+    DL_I2C_setAnalogGlitchFilterPulseWidth(MPU6050_INST,
+        DL_I2C_ANALOG_GLITCH_FILTER_WIDTH_50NS);
+    DL_I2C_enableAnalogGlitchFilter(MPU6050_INST);
+    DL_I2C_setDigitalGlitchFilterPulseWidth(MPU6050_INST,
+        DL_I2C_DIGITAL_GLITCH_FILTER_WIDTH_CLOCKS_1);
+
+    /* Configure Controller Mode */
+    DL_I2C_resetControllerTransfer(MPU6050_INST);
+    /* Set frequency to 100000 Hz*/
+    DL_I2C_setTimerPeriod(MPU6050_INST, 39);
+    DL_I2C_setControllerTXFIFOThreshold(MPU6050_INST, DL_I2C_TX_FIFO_LEVEL_BYTES_7);
+    DL_I2C_setControllerRXFIFOThreshold(MPU6050_INST, DL_I2C_RX_FIFO_LEVEL_BYTES_8);
+    DL_I2C_enableControllerClockStretching(MPU6050_INST);
+
+
+    /* Enable module */
+    DL_I2C_enableController(MPU6050_INST);
+
+
+}
 
 static const DL_UART_Main_ClockConfig gDEBUGClockConfig = {
     .clockSel    = DL_UART_MAIN_CLOCK_BUSCLK,
@@ -532,5 +577,14 @@ SYSCONFIG_WEAK void SYSCFG_DL_DEBUG_init(void)
 
 
     DL_UART_Main_enable(DEBUG_INST);
+}
+
+SYSCONFIG_WEAK void SYSCFG_DL_SYSTICK_init(void)
+{
+    /*
+     * Initializes the SysTick period to 1.00 ms,
+     * enables the interrupt, and starts the SysTick Timer
+     */
+    DL_SYSTICK_config(80000);
 }
 

@@ -61,6 +61,28 @@
             "projectInfo": {
                 "name": "11_PID_CAR",
                 "resourceId": "/11_PID_CAR"
+            },
+            "connections": [
+                {
+                    "name": "SEGGER J-Link Emulator",
+                    "cores": [
+                        {
+                            "name": "CORTEX_M0P",
+                            "debuggerSettings": {
+                                "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n<PropertyValues/>\n"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "04_OLED",
+            "type": "ccs-debug",
+            "request": "launch",
+            "projectInfo": {
+                "name": "04_OLED",
+                "resourceId": "/04_OLED"
             }
         }
     ]

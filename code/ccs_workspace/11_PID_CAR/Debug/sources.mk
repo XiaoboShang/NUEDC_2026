@@ -120,4 +120,5 @@ GEN_OPTS__QUOTED :=
 SUBDIRS := \
 . \
 user_driver \
+user_driver/mpu6050 \
 

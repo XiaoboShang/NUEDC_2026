@@ -82,7 +82,7 @@ extern "C" {
 /* Defines for SYSPLL_ERR_01 Workaround */
 /* Represent 1.000 as 1000 */
 #define FLOAT_TO_INT_SCALE                                               (1000U)
-#define FCC_EXPECTED_RATIO                                                  2000
+#define FCC_EXPECTED_RATIO                                                  2500
 #define FCC_UPPER_BOUND                       (FCC_EXPECTED_RATIO * (1 + 0.003))
 #define FCC_LOWER_BOUND                       (FCC_EXPECTED_RATIO * (1 - 0.003))
 
@@ -143,6 +143,20 @@ bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
 #define GPIO_OLED_SCL_PIN                                          DL_GPIO_PIN_2
 #define GPIO_OLED_IOMUX_SCL                                      (IOMUX_PINCM15)
 #define GPIO_OLED_IOMUX_SCL_FUNC                       IOMUX_PINCM15_PF_I2C1_SCL
+
+/* Defines for MPU6050 */
+#define MPU6050_INST                                                        I2C0
+#define MPU6050_INST_IRQHandler                                  I2C0_IRQHandler
+#define MPU6050_INST_INT_IRQN                                      I2C0_INT_IRQn
+#define MPU6050_BUS_SPEED_HZ                                              100000
+#define GPIO_MPU6050_SDA_PORT                                              GPIOA
+#define GPIO_MPU6050_SDA_PIN                                       DL_GPIO_PIN_0
+#define GPIO_MPU6050_IOMUX_SDA                                    (IOMUX_PINCM1)
+#define GPIO_MPU6050_IOMUX_SDA_FUNC                     IOMUX_PINCM1_PF_I2C0_SDA
+#define GPIO_MPU6050_SCL_PORT                                              GPIOA
+#define GPIO_MPU6050_SCL_PIN                                       DL_GPIO_PIN_1
+#define GPIO_MPU6050_IOMUX_SCL                                    (IOMUX_PINCM2)
+#define GPIO_MPU6050_IOMUX_SCL_FUNC                     IOMUX_PINCM2_PF_I2C0_SCL
 
 
 /* Defines for DEBUG */
@@ -245,6 +259,8 @@ bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
 #define HUIDU_R4_IOMUX                                            (IOMUX_PINCM5)
 
 
+
+
 /* clang-format on */
 
 void SYSCFG_DL_init(void);
@@ -257,8 +273,10 @@ void SYSCFG_DL_SERVO_init(void);
 void SYSCFG_DL_PWMAB_init(void);
 void SYSCFG_DL_MOTOR_PID_init(void);
 void SYSCFG_DL_OLED_init(void);
+void SYSCFG_DL_MPU6050_init(void);
 void SYSCFG_DL_DEBUG_init(void);
 
+void SYSCFG_DL_SYSTICK_init(void);
 
 bool SYSCFG_DL_saveConfiguration(void);
 bool SYSCFG_DL_restoreConfiguration(void);

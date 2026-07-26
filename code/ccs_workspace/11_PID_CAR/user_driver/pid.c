@@ -4,36 +4,35 @@
 
 /* ======================== 巡线 PID 可调参数区 ======================== */
 
-#define LINE_PID_KP                 35.0f  // 比例系数：建议 10～60；增大可加快转向，过大会左右振荡
-#define LINE_PID_KI                  0.0f  // 积分系数：建议 0～5；增大可消除长期偏差，过大会产生积分饱和
-#define LINE_PID_KD                 20.0f  // 微分系数：建议 0～40；增大可抑制摆动，过大会放大传感器跳变
+#define LINE_PID_KP 35.0f // 比例系数：建议 10～60；增大可加快转向，过大会左右振荡
+#define LINE_PID_KI 0.0f  // 积分系数：建议 0～5；增大可消除长期偏差，过大会产生积分饱和
+#define LINE_PID_KD 20.0f // 微分系数：建议 0～40；增大可抑制摆动，过大会放大传感器跳变
 
-#define LINE_BASE_SPEED            300.0f  // 直线巡航速度，单位 mm/s；增大可提速，但会降低弯道稳定性
-#define LINE_MIN_BASE_SPEED        150.0f  // 大偏差时最低基准速度，单位 mm/s；减小可提高急弯通过能力
-#define LINE_MAX_TARGET_SPEED      500.0f  // 单轮最高目标速度，单位 mm/s；应与电机速度环能力匹配
-#define LINE_MAX_CORRECTION        300.0f  // 最大差速修正量，单位 mm/s；增大可增强急弯转向能力
-#define LINE_INTEGRAL_LIMIT         20.0f  // 误差积分绝对值上限；减小可降低积分饱和风险
+#define LINE_BASE_SPEED 300.0f       // 直线巡航速度，单位 mm/s；增大可提速，但会降低弯道稳定性
+#define LINE_MIN_BASE_SPEED 150.0f   // 大偏差时最低基准速度，单位 mm/s；减小可提高急弯通过能力
+#define LINE_MAX_TARGET_SPEED 500.0f // 单轮最高目标速度，单位 mm/s；应与电机速度环能力匹配
+#define LINE_MAX_CORRECTION 300.0f   // 最大差速修正量，单位 mm/s；增大可增强急弯转向能力
+#define LINE_INTEGRAL_LIMIT 20.0f    // 误差积分绝对值上限；减小可降低积分饱和风险
 
-#define LINE_FINISH_CONFIRM_COUNT       3U // 连续全黑确认次数；10 ms 周期下 3 次等于 30 ms
-#define LINE_LOST_TIMEOUT_COUNT        50U // 丢线搜索超时次数；10 ms 周期下 50 次等于 500 ms
-#define LINE_SEARCH_SPEED           150.0f // 丢线搜索时外侧车轮速度，单位 mm/s；增大可加快搜索
+#define LINE_FINISH_CONFIRM_COUNT 20U // 连续全黑确认次数；10 ms 周期下 20 次等于 200 ms
+#define LINE_LOST_TIMEOUT_COUNT 50U   // 丢线搜索超时次数；10 ms 周期下 50 次等于 500 ms
+#define LINE_SEARCH_SPEED 150.0f      // 丢线搜索时外侧车轮速度，单位 mm/s；增大可加快搜索
 
 /* 八路传感器顺序：L4、L3、L2、L1、R1、R2、R3、R4。 */
 static const float line_sensor_weight[8] = {
     -7.0f, -5.0f, -3.0f, -1.0f,
-     1.0f,  3.0f,  5.0f,  7.0f
-};
+    1.0f, 3.0f, 5.0f, 7.0f};
 
 /* ======================== 巡线 PID 运行状态区 ======================== */
 
-static float line_error_sum = 0.0f;              // 每 10 ms 累计一次的误差积分，仅在正常巡线时更新
-static float line_last_error = 0.0f;             // 上一次 PID 误差，用于计算微分项
-static float line_last_valid_error = 0.0f;       // 最近一次检测到黑线时的误差，用于决定丢线搜索方向
-static volatile float line_current_error = 0.0f; // 当前误差，由 10 ms 中断更新，主循环可读取
-static uint16_t line_lost_count = 0U;            // 连续全白周期数，每个计数代表 10 ms
-static uint8_t line_finish_count = 0U;           // 连续全黑周期数，每个计数代表 10 ms
+static float line_error_sum = 0.0f;                          // 每 10 ms 累计一次的误差积分，仅在正常巡线时更新
+static float line_last_error = 0.0f;                         // 上一次 PID 误差，用于计算微分项
+static float line_last_valid_error = 0.0f;                   // 最近一次检测到黑线时的误差，用于决定丢线搜索方向
+static volatile float line_current_error = 0.0f;             // 当前误差，由 10 ms 中断更新，主循环可读取
+static uint16_t line_lost_count = 0U;                        // 连续全白周期数，每个计数代表 10 ms
+static uint8_t line_finish_count = 0U;                       // 连续全黑周期数，每个计数代表 10 ms
 static volatile line_state_t line_state = LINE_STATE_NORMAL; // 当前状态，由 10 ms 中断更新
-static uint8_t line_pid_initialized = 0U;        // 初始化标志，防止定时器先启动时误输出目标速度
+static uint8_t line_pid_initialized = 0U;                    // 初始化标志，防止定时器先启动时误输出目标速度
 
 /**
  * @brief 将浮点数限制在指定范围内。
@@ -113,9 +112,7 @@ static float line_pid_calculate(float error)
                                       LINE_INTEGRAL_LIMIT);
 
     derivative = error - line_last_error;
-    correction = LINE_PID_KP * error
-               + LINE_PID_KI * line_error_sum
-               + LINE_PID_KD * derivative;
+    correction = LINE_PID_KP * error + LINE_PID_KI * line_error_sum + LINE_PID_KD * derivative;
     line_last_error = error;
 
     return line_limit_float(correction,
@@ -258,8 +255,7 @@ void line_pid_update(void)
         return;
     }
 
-    if ((line_state == LINE_STATE_FINISH_STOP)
-        || (line_state == LINE_STATE_LOST_STOP))
+    if ((line_state == LINE_STATE_FINISH_STOP) || (line_state == LINE_STATE_LOST_STOP))
     {
         line_set_target_speed(0.0f, 0.0f);
         return;

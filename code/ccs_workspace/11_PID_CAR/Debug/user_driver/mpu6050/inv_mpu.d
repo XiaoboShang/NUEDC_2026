@@ -1,6 +1,9 @@
 # FIXED
 
-main.o: ../main.c \
+user_driver/mpu6050/inv_mpu.o: ../user_driver/mpu6050/inv_mpu.c \
+ ../user_driver/mpu6050/inv_mpu.h \
+ ../user_driver/mpu6050/inv_mpu_dmp_motion_driver.h \
+ ../user_driver/mpu6050/mpu_port.h \
  ti_msp_dl_config.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/msp/msp.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/DeviceFamily.h \
@@ -84,14 +87,10 @@ main.o: ../main.c \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_wwdt.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_interrupt.h \
  G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h \
- G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/delay.h \
- G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/oled.h \
- G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/uart.h \
- G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/key.h \
- G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/motor.h \
- G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/huidu.h \
- G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/pid.h \
- G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/mpu6050/mpu_port.h
+ G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/delay.h
+../user_driver/mpu6050/inv_mpu.h:
+../user_driver/mpu6050/inv_mpu_dmp_motion_driver.h:
+../user_driver/mpu6050/mpu_port.h:
 ti_msp_dl_config.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/msp/msp.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/devices/DeviceFamily.h:
@@ -176,10 +175,3 @@ G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/dl_wwdt.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_interrupt.h:
 G:/electronic/ti/ccs2050/mspm0_sdk_2_11_00_07/source/ti/driverlib/m0p/dl_systick.h:
 G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/delay.h:
-G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/oled.h:
-G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/uart.h:
-G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/key.h:
-G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/motor.h:
-G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/huidu.h:
-G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/pid.h:
-G:/NUEDC_2026/code/ccs_workspace/11_PID_CAR/user_driver/mpu6050/mpu_port.h:

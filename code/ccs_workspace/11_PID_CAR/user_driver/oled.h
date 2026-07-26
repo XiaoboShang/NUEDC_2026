@@ -9,8 +9,25 @@
 #define OLED_CMD  0	//写命令
 #define OLED_DATA 1	//写数据
 
+/* OLED I2C debug fault reasons. */
+#define OLED_I2C_FAULT_NONE               (0U)
+#define OLED_I2C_FAULT_WAIT_IDLE_BEFORE   (1U)
+#define OLED_I2C_FAULT_CONTROLLER_ERROR   (2U)
+#define OLED_I2C_FAULT_BUSY_TIMEOUT       (3U)
+#define OLED_I2C_FAULT_WAIT_IDLE_AFTER    (4U)
+
 typedef unsigned char u8;
 typedef unsigned int  u32;
+
+/*
+ * Debug snapshots retained when the first OLED I2C failure occurs.
+ * These variables are volatile so they remain visible in CCS Expressions.
+ */
+extern volatile uint8_t g_oledI2cFault;
+extern volatile uint8_t g_oledI2cFaultReason;
+extern volatile uint32_t g_oledI2cLastStatus;
+extern volatile uint8_t g_oledI2cLastData;
+extern volatile uint8_t g_oledI2cLastMode;
 
 /**
  * @brief 清除 OLED 显存中的一个像素点

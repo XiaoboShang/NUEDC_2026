@@ -9,20 +9,22 @@
 /**
  * Import the modules used in this configuration.
  */
-const GPIO   = scripting.addModule("/ti/driverlib/GPIO", {}, false);
-const GPIO1  = GPIO.addInstance();
-const GPIO2  = GPIO.addInstance();
-const GPIO3  = GPIO.addInstance();
-const I2C    = scripting.addModule("/ti/driverlib/I2C", {}, false);
-const I2C1   = I2C.addInstance();
-const PWM    = scripting.addModule("/ti/driverlib/PWM", {}, false);
-const PWM1   = PWM.addInstance();
-const PWM2   = PWM.addInstance();
-const SYSCTL = scripting.addModule("/ti/driverlib/SYSCTL");
-const TIMER  = scripting.addModule("/ti/driverlib/TIMER", {}, false);
-const TIMER1 = TIMER.addInstance();
-const UART   = scripting.addModule("/ti/driverlib/UART", {}, false);
-const UART1  = UART.addInstance();
+const GPIO    = scripting.addModule("/ti/driverlib/GPIO", {}, false);
+const GPIO1   = GPIO.addInstance();
+const GPIO2   = GPIO.addInstance();
+const GPIO3   = GPIO.addInstance();
+const I2C     = scripting.addModule("/ti/driverlib/I2C", {}, false);
+const I2C1    = I2C.addInstance();
+const I2C2    = I2C.addInstance();
+const PWM     = scripting.addModule("/ti/driverlib/PWM", {}, false);
+const PWM1    = PWM.addInstance();
+const PWM2    = PWM.addInstance();
+const SYSCTL  = scripting.addModule("/ti/driverlib/SYSCTL");
+const SYSTICK = scripting.addModule("/ti/driverlib/SYSTICK");
+const TIMER   = scripting.addModule("/ti/driverlib/TIMER", {}, false);
+const TIMER1  = TIMER.addInstance();
+const UART    = scripting.addModule("/ti/driverlib/UART", {}, false);
+const UART1   = UART.addInstance();
 
 /**
  * Write custom configuration values to the imported modules.
@@ -31,16 +33,13 @@ const divider9       = system.clockTree["UDIV"];
 divider9.divideValue = 2;
 
 const multiplier2         = system.clockTree["PLL_QDIV"];
-multiplier2.multiplyValue = 4;
+multiplier2.multiplyValue = 5;
 
 const mux4       = system.clockTree["EXHFMUX"];
 mux4.inputSelect = "EXHFMUX_XTAL";
 
 const mux8       = system.clockTree["HSCLKMUX"];
 mux8.inputSelect = "HSCLKMUX_SYSPLL0";
-
-const mux12       = system.clockTree["SYSPLLMUX"];
-mux12.inputSelect = "zSYSPLLMUX_HFCLK";
 
 const pinFunction4       = system.clockTree["HFXT"];
 pinFunction4.inputFreq   = 40;
@@ -135,6 +134,26 @@ I2C1.sclPinConfig.passedPeripheralType = scripting.forceWrite("Digital");
 I2C1.sclPinConfig.enableConfig         = true;
 I2C1.sclPinConfig.internalResistor     = "PULL_UP";
 
+I2C2.$name                             = "MPU6050";
+I2C2.basicEnableController             = true;
+I2C2.advDigitalGlitchFilter            = "CLOCKS_1";
+I2C2.advControllerRXFIFOTRIG           = "BYTES_8";
+I2C2.advControllerTXFIFOTRIG           = "BYTES_7";
+I2C2.enableDMAEvent1                   = false;
+I2C2.enableDMAEvent2                   = false;
+I2C2.basicControllerStandardBusSpeed   = "Standard";
+I2C2.peripheral.$assign                = "I2C0";
+I2C2.peripheral.sdaPin.$assign         = "PA0";
+I2C2.peripheral.sclPin.$assign         = "PA1";
+I2C2.sdaPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric7";
+I2C2.sdaPinConfig.hideOutputInversion  = scripting.forceWrite(false);
+I2C2.sdaPinConfig.onlyInternalResistor = scripting.forceWrite(false);
+I2C2.sdaPinConfig.passedPeripheralType = scripting.forceWrite("Digital");
+I2C2.sclPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric8";
+I2C2.sclPinConfig.hideOutputInversion  = scripting.forceWrite(false);
+I2C2.sclPinConfig.onlyInternalResistor = scripting.forceWrite(false);
+I2C2.sclPinConfig.passedPeripheralType = scripting.forceWrite("Digital");
+
 PWM1.$name                              = "SERVO";
 PWM1.clockDivider                       = 8;
 PWM1.clockPrescale                      = 100;
@@ -174,6 +193,11 @@ PWM2.ccp1PinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric6";
 
 SYSCTL.forceDefaultClkConfig = true;
 SYSCTL.clockTreeEn           = true;
+
+SYSTICK.periodEnable    = true;
+SYSTICK.period          = 80000;
+SYSTICK.interruptEnable = true;
+SYSTICK.systickEnable   = true;
 
 TIMER1.$name              = "MOTOR_PID";
 TIMER1.timerMode          = "PERIODIC_UP";

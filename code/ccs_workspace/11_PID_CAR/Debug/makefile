@@ -20,6 +20,9 @@ ORDERED_OBJS += \
 "./user_driver/oled.o" \
 "./user_driver/pid.o" \
 "./user_driver/uart.o" \
+"./user_driver/mpu6050/inv_mpu.o" \
+"./user_driver/mpu6050/inv_mpu_dmp_motion_driver.o" \
+"./user_driver/mpu6050/mpu_port.o" \
 $(GEN_CMDS__FLAG) \
 -Wl,-ldevice.cmd.genlibs \
 -Wl,-llibc.a \
@@ -33,8 +36,10 @@ RMDIR := RMDIR /S/Q
 -include sources.mk
 -include subdir_vars.mk
 -include user_driver/subdir_vars.mk
+-include user_driver/mpu6050/subdir_vars.mk
 -include subdir_rules.mk
 -include user_driver/subdir_rules.mk
+-include user_driver/mpu6050/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -145,8 +150,8 @@ all: $(OBJS) $(GEN_CMDS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "main.o" "user_driver\delay.o" "user_driver\huidu.o" "user_driver\key.o" "user_driver\motor.o" "user_driver\oled.o" "user_driver\pid.o" "user_driver\uart.o" 
-	-$(RM) "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "main.d" "user_driver\delay.d" "user_driver\huidu.d" "user_driver\key.d" "user_driver\motor.d" "user_driver\oled.d" "user_driver\pid.d" "user_driver\uart.d" 
+	-$(RM) "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "main.o" "user_driver\delay.o" "user_driver\huidu.o" "user_driver\key.o" "user_driver\motor.o" "user_driver\oled.o" "user_driver\pid.o" "user_driver\uart.o" "user_driver\mpu6050\inv_mpu.o" "user_driver\mpu6050\inv_mpu_dmp_motion_driver.o" "user_driver\mpu6050\mpu_port.o" 
+	-$(RM) "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "main.d" "user_driver\delay.d" "user_driver\huidu.d" "user_driver\key.d" "user_driver\motor.d" "user_driver\oled.d" "user_driver\pid.d" "user_driver\uart.d" "user_driver\mpu6050\inv_mpu.d" "user_driver\mpu6050\inv_mpu_dmp_motion_driver.d" "user_driver\mpu6050\mpu_port.d" 
 	-@echo ' '
 
 .PHONY: all clean dependents

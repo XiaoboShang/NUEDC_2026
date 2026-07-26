@@ -8,7 +8,8 @@
                 "G:/electronic/ti/ccs2050/ccs/tools/compiler/ti-cgt-armllvm_4.0.4.LTS/include",
                 "${workspaceFolder}",
                 "${workspaceFolder}/Debug",
-                "${workspaceFolder}/user_driver"
+                "${workspaceFolder}/user_driver",
+                "${workspaceFolder}/user_driver/mpu6050"
             ],
             "defines": [
                 "__MSPM0G3507__"
