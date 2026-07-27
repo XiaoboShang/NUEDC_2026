@@ -23,8 +23,7 @@ int main(void)
     OLED_ColorTurn(0);
     OLED_DisplayTurn(0);
     OLED_Clear();
-    while (DMP_Init())
-        ;
+    DMP_Init();
 
     NVIC_EnableIRQ(DC_MOTOR_GPIOA_INT_IRQN);
     NVIC_EnableIRQ(DC_MOTOR_GPIOB_INT_IRQN);
@@ -66,8 +65,7 @@ int main(void)
         //         line_error_snapshot, (int)line_state_snapshot);
         // UART_send_string(DEBUG_INST, huidu_buf);
 
-        while (DMP_Read_Data(&pitch, &roll, &yaw))
-            ;
+        DMP_Read_Data(&pitch, &roll, &yaw);
         snprintf(angle_pry, sizeof(angle_pry), "P: %7.2f      ", (double)pitch);
         OLED_ShowString(0, 0, (u8 *)angle_pry, 16);
         snprintf(angle_pry, sizeof(angle_pry), "R: %7.2f      ", (double)roll);

@@ -3,3 +3,9 @@
 /硬件资料/
 /网络资料/
 /AGENTS.md
+/CanMV_K230/
+
+# IDE/tool caches and generated artifacts
+**/.cache/
+**/Debug/
+**/tmp/
