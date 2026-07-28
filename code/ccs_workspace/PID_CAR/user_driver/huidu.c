@@ -8,7 +8,7 @@ volatile uint8_t huidu_value[8] = {0, 0, 0, 0, 0, 0, 0, 0};
  * @param gpio GPIO 引脚掩码。
  * @return 高电平返回 1，低电平返回 0。
  */
-static uint8_t huidu_get_gpio_state(GPIO_Regs *gpio_port, uint32_t gpio)
+uint8_t huidu_get_gpio_state(GPIO_Regs *gpio_port, uint32_t gpio)
 {
     uint32_t high_bits = DL_GPIO_readPins(gpio_port, gpio);
     if ((high_bits & gpio) != 0)

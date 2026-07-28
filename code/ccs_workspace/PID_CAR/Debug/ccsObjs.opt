@@ -1,6 +1,7 @@
 "./ti_msp_dl_config.o"
 "./startup_mspm0g350x_ticlang.o"
 "./main.o"
+"./user_driver/citie.o"
 "./user_driver/delay.o"
 "./user_driver/huidu.o"
 "./user_driver/key.o"

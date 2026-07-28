@@ -257,6 +257,15 @@ bool SYSCFG_DL_SYSCTL_SYSPLL_init(void);
 /* Defines for R4: GPIOA.28 with pinCMx 3 on package pin 35 */
 #define HUIDU_R4_PIN                                            (DL_GPIO_PIN_28)
 #define HUIDU_R4_IOMUX                                            (IOMUX_PINCM3)
+/* Port definition for Pin Group XI */
+#define XI_PORT                                                          (GPIOB)
+
+/* Defines for TOUCH: GPIOB.14 with pinCMx 31 on package pin 2 */
+#define XI_TOUCH_PIN                                            (DL_GPIO_PIN_14)
+#define XI_TOUCH_IOMUX                                           (IOMUX_PINCM31)
+/* Defines for CITIE: GPIOB.11 with pinCMx 28 on package pin 63 */
+#define XI_CITIE_PIN                                            (DL_GPIO_PIN_11)
+#define XI_CITIE_IOMUX                                           (IOMUX_PINCM28)
 
 
 

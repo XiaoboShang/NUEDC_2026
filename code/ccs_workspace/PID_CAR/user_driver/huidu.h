@@ -12,4 +12,5 @@ extern volatile uint8_t huidu_value[8];
  */
 void huidu_get_value(void);
 
+uint8_t huidu_get_gpio_state(GPIO_Regs *gpio_port, uint32_t gpio);
 #endif

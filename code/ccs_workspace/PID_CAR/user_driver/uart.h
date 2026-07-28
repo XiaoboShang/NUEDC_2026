@@ -20,6 +20,6 @@ void UART_send_string(UART_Regs *uart, const char *str);
 /**
  * @brief 接收串口信息中断函数
  */
-void PRINT_INST_IRQHandler();
+void DEBUG_INST_IRQHandler();
 
 #endif

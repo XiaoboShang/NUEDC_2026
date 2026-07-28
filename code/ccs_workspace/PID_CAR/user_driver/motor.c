@@ -195,6 +195,8 @@ void MOTOR_PID_INST_IRQHandler()
         calculate_speed(2);
         DC_MOTOR_PID(1);
         DC_MOTOR_PID(2);
+        judge_ads();
+
         break;
 
     default:

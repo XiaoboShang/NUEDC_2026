@@ -25,7 +25,7 @@ int main(void)
     OLED_Clear();
     while (DMP_Init())
         ;
-
+    NVIC_EnableIRQ(DEBUG_INST_INT_IRQN);
     NVIC_EnableIRQ(DC_MOTOR_GPIOA_INT_IRQN);
     NVIC_EnableIRQ(DC_MOTOR_GPIOB_INT_IRQN);
 

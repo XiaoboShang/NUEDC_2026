@@ -89,6 +89,7 @@ main.o: ../main.c \
  G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/uart.h \
  G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/key.h \
  G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/motor.h \
+ G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/citie.h \
  G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/huidu.h \
  G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/pid.h \
  G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/mpu6050/mpu_port.h
@@ -180,6 +181,7 @@ G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/oled.h:
 G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/uart.h:
 G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/key.h:
 G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/motor.h:
+G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/citie.h:
 G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/huidu.h:
 G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/pid.h:
 G:/NUEDC_2026/code/ccs_workspace/PID_CAR/user_driver/mpu6050/mpu_port.h:
