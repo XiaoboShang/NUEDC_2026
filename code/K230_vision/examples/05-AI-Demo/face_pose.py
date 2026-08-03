@@ -38,7 +38,7 @@ class FaceDetApp(AIBase):
         with ScopedTiming("set preprocess config",self.debug_mode > 0):
             # 初始化ai2d预处理配置，默认为sensor给到AI的尺寸，可以通过设置input_image_size自行修改输入尺寸
             ai2d_input_size=input_image_size if input_image_size else self.rgb888p_size
-            top, bottom, left, right,_ =letterbox_pad_param(self.rgb888p_size,self.model_input_size) 
+            top, bottom, left, right,_ =letterbox_pad_param(self.rgb888p_size,self.model_input_size)
             self.ai2d.pad([0, 0, 0, 0, top, bottom, left, right], 0, [104, 117, 123])  # 填充边缘
             # 设置resize预处理
             self.ai2d.resize(nn.interp_method.tf_bilinear, nn.interp_mode.half_pixel)
@@ -246,7 +246,7 @@ class FacePose:
 
 if __name__=="__main__":
     # 添加显示模式，默认hdmi，可选hdmi/lcd/lt9611/st7701/hx8399/nt35516/nt35532/gc9503/aml020t/jd9852/ili9806/virt；其中hdmi默认对应lt9611，lcd默认对应st7701
-    display_mode="hdmi"
+    display_mode="lcd"
     # 显示分辨率，None表示使用当前显示屏默认分辨率；使用virt时可在这里手动设置，例如[800, 480]
     display_size=None
     # k230保持不变，k230d可调整为[640,360]

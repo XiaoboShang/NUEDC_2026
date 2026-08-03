@@ -55,12 +55,12 @@
             ]
         },
         {
-            "name": "PID_CAR",
+            "name": "Problem_H",
             "type": "ccs-debug",
             "request": "launch",
             "projectInfo": {
-                "name": "PID_CAR",
-                "resourceId": "/PID_CAR"
+                "name": "Problem_H",
+                "resourceId": "/Problem_H"
             },
             "connections": [
                 {
